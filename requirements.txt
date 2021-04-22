@@ -1,0 +1,4 @@
+requests==2.25.1
+discord.py==1.7.1
+discord==1.0.1
+discord_webhook==0.13.0
