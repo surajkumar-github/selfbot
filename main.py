@@ -1,3 +1,4 @@
+
 import os
 import difflib
 import sqlite3
@@ -17,15 +18,20 @@ for i in file:
 import discord
 from discord.ext import commands
 from discord.ext import tasks
+from random import choice
 import asyncio
 from keep_alive import keep_alive
 import requests
 from discord_webhook import DiscordWebhook
+
+
 cid = "822530222153793536"
 editing = {
 
 }
 req = requests.get("https://discord.com/api/path/to/the/endpoint")
+
+
 
 print(req)
 import time
@@ -33,25 +39,24 @@ import time
 gg = open('caught.txt', 'a')
 import random
 #cid = 801907193754288249
-client = commands.Bot(command_prefix='.')
-client._skip_check = lambda x, y: False
-@tasks.loop(seconds=0.2)
-async def spammer():
-  text_channel = client.get_channel(cid)
- # print(text_channel)
-  if text_channel != None:
-   # words = ["gaeming","om","ap","harry","nato"]
-    #print(x)
-    num = random.randint(1,10000000000000000000000000)
-    await text_channel.send(num)
-    intervals = [1, 1.7, 1.6, 1.5, 1.4, 1.3, 1.2, 1.8, 1.9]
-    await asyncio.sleep(random.choice(intervals))
+import discord
+from discord.ext import commands, tasks
 
-@tasks.loop(seconds=14400)
-async def sleeper():
-  time.sleep(seconds = 3600)
-  spammer.start()
-#pokes = ['pikachu','charixadd','swellow','pidove',input('option')]
+from random import choice
+
+client = commands.Bot(command_prefix='_')
+client._skip_check = lambda x, y: False
+status = ['_help', 'contact: @Rapter#2273']
+queue = []
+
+@client.event
+async def on_ready():
+    change_status.start()
+    print('Bot is online!')
+
+@tasks.loop(seconds=5)
+async def change_status():
+    await client.change_presence(activity=discord.Game(choice(status)))
 
 hint = ""
 @client.event
@@ -82,10 +87,10 @@ async def on_message(message):
           first_options = ["nidoran","farfetch'd"]
        
        
-        m = await message.channel.send(",catch "+first_options[0])
+        m = await message.channel.send(first_options[0])
         for i in first_options[1:3]:
           await asyncio.sleep(1)
-          await m.edit(content = ",catch "+i)
+          await m.edit(content = +i)
         if message.channel.id not in editing.keys():
           editing[message.channel.id] = m
 
@@ -165,14 +170,7 @@ async def catchrate(ctx):
   await ctx.send(f'the catch rate is {count} mons per minute')
 
 
-@client.command()
-async def stop(ctx):
-    spammer.stop()
 
-@client.command()
-async def spam(ctx):
-  return
-  spammer.start()
 
 @client.command()
 async def say(ctx, *, args):
@@ -180,6 +178,15 @@ async def say(ctx, *, args):
   
  
   await ctx.send(args)
+
+@client.command(name='ping')
+async def ping(ctx):
+    await ctx.send(f'**Pong!** Latency: {round(client.latency * 1000)}ms')
+
+
+
+
+
 
 keep_alive()
 client.run('ODM0NDc5MzY4ODQ3MjI4OTY4.YIBfeQ.jzEYJ9RSJMOTTZUYDpOIwcUNHj0')
